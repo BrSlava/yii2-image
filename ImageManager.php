@@ -78,7 +78,7 @@ class ImageManager extends Component
 
         if (!file_exists($dest['path'])) {
             try{
-                $data = parse_url($data)['host'] ? ltrim($data, '/') : $data ;
+              //  $data = parse_url($data)['host'] ? ltrim($data, '/') : $data ;
                 FileHelper::createDirectory($dest['dir']);
                 $this->make(ltrim($data,'/'))->fit($width, $height)->save($dest['path']);
 
