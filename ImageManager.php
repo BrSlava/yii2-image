@@ -45,7 +45,7 @@ class ImageManager extends Component
         return $this->createDriver()->newImage($width, $height, $background);
     }
 
-    /**
+        /**
      * Create thumbnail or return src if thumb already created
      *
      * @param mixed $data
@@ -70,9 +70,10 @@ class ImageManager extends Component
             substr($src['md5'], 0, 3).DIRECTORY_SEPARATOR.
             substr($src['md5'], 2, 3).DIRECTORY_SEPARATOR.
             substr($src['md5'], 5, 3).DIRECTORY_SEPARATOR;
-        $dest['url'] = FileHelper::normalizePath($dest['dir'].'/'.$dest['name'], '/');
-        $dest['dir'] = FileHelper::normalizePath(\Yii::getAlias('@webroot').DIRECTORY_SEPARATOR.$dest['dir']);
-        $dest['path'] = $dest['dir'].DIRECTORY_SEPARATOR.$dest['name'];
+
+        $dest['url'] = FileHelper::normalizePath($dest['dir'].'/'.$dest['name'] , '/');
+        $dest['dir'] = FileHelper::normalizePath($dest['dir']);
+        $dest['path'] = FileHelper::normalizePath(\Yii::getAlias('@webroot').DIRECTORY_SEPARATOR.$dest['dir'].DIRECTORY_SEPARATOR.$dest['name']);
 
 
         if (!file_exists($dest['path'])) {
@@ -80,11 +81,14 @@ class ImageManager extends Component
                 $data = parse_url($data)['host'] ? ltrim($data, '/') : $data ;
                 FileHelper::createDirectory($dest['dir']);
                 $this->make(ltrim($data,'/'))->fit($width, $height)->save($dest['path']);
+
             } catch(\Exception $e) {
                 \Yii::getLogger()->log('THUMB: '.$e->getMessage(), 0);
-                return null;
+                 return null;
+
             }
         }
+
         return $dest['url'];
     }
 
